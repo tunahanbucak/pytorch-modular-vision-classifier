@@ -1,0 +1,26 @@
+# PyCharm / IDE
+.idea/
+*.iml
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS
+.DS_Store
+
+# Datasets (heavy image directories)
+data/
+*.tar.gz
+*.zip
+
+# Logs & temporary files
+*.log
+*.tmp
