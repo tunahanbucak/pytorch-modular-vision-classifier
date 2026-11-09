@@ -19,7 +19,8 @@ data_transform = transforms.Compose([
 train_dataloader, test_dataloader, class_names = setup_data.create_dataloaders(
     train_dir=train_dir,
     test_dir=test_dir,
-    transform=data_transform,
+    train_transform=data_transform,
+    test_transform=data_transform,
     batch_size=BATCH_SIZE
 )
 # you can obviously omit the previous codes and just get the class names from main
@@ -31,7 +32,7 @@ loaded_model = model_creation.DesertClassifier(
     )
 
 # Load model state dict
-loaded_model.load_state_dict(torch.load(MODEL_SAVE_PATH))
+loaded_model.load_state_dict(torch.load(MODEL_SAVE_PATH, weights_only=True))
 
 
 # use loaded model to predict one image
@@ -39,9 +40,10 @@ from pathlib import Path
 data_path = Path("data/")
 online_image_path = data_path / "baklava-online.jpg"
 single_image = torchvision.io.read_image(str(online_image_path)).type(torch.float32)
-single_image = single_image / 255
+single_image = single_image / 255.0
 single_image_transform = transforms.Compose([
     transforms.Resize(size=(64, 64)),
+    transforms.Normalize((0.5483, 0.4638, 0.3865), (0.2173, 0.2279, 0.2263)),
 ])
 single_image = single_image_transform(single_image)
 single_image = single_image.unsqueeze(dim=0)

@@ -58,7 +58,8 @@ if __name__ == '__main__':
     train_dataloader, test_dataloader, class_names = setup_data.create_dataloaders(
         train_dir=train_dir,
         test_dir=test_dir,
-        transform=data_transform,
+        train_transform=data_transform,
+        test_transform=data_transform,
         batch_size=BATCH_SIZE
     )
     mean, std = get_mean_and_std(train_dataloader)

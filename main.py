@@ -17,8 +17,8 @@ def main():
 
     #device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Create transforms
-    data_transform = transforms.Compose(
+    # Create transforms (augmentation only for training, pure preprocessing for testing)
+    train_transform = transforms.Compose(
         [
             transforms.Resize((64, 64)),
             transforms.RandomHorizontalFlip(p=0.4),
@@ -28,11 +28,20 @@ def main():
         ]
     )
 
-    # Create DataLoaders with help from data_setup.py
+    test_transform = transforms.Compose(
+        [
+            transforms.Resize((64, 64)),
+            transforms.ToTensor(),
+            transforms.Normalize((0.5483, 0.4638, 0.3865), (0.2173, 0.2279, 0.2263)),
+        ]
+    )
+
+    # Create DataLoaders with help from setup_data.py
     train_dataloader, test_dataloader, class_names = setup_data.create_dataloaders(
         train_dir=train_dir,
         test_dir=test_dir,
-        transform=data_transform,
+        train_transform=train_transform,
+        test_transform=test_transform,
         batch_size=BATCH_SIZE
     )
 

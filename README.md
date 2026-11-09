@@ -28,8 +28,8 @@ Proje; **Desert101** (Food-101 alt kümesi: `baklava`, `cannoli`, `cup_cakes`, `
 1. **Modüler Yazılım Mimarisi (Separation of Concerns):**
    * Veri hattı, model mimarisi, eğitim/test motoru ve yardımcı araçlar ayrı dosyalara bölünerek yeniden kullanılabilirlik sağlanmıştır.
    * `torch.multiprocessing.set_start_method("spawn", force=True)` ile macOS/Windows ortamlarında çoklu işlem (`num_workers`) uyumluluğu sağlanmıştır.
-2. **Veri Artırma (Data Augmentation):**
-   * Küçük ölçekli görsel veri setinde ezberlemeyi (**Overfitting**) önlemek için `RandomHorizontalFlip(p=0.4)` ve `TrivialAugmentWide()` uygulanmıştır.
+2. **Veri Artırma (Data Augmentation) & Veri Sızıntısı Önlemi:**
+   * Küçük ölçekli görsel veri setinde ezberlemeyi (**Overfitting**) önlemek için **yalnızca eğitim setine (`train_transform`)** `RandomHorizontalFlip(p=0.4)` ve `TrivialAugmentWide()` uygulanmıştır. Test seti (`test_transform`) tarafsız ölçüm için ham haliyle bırakılmıştır.
 3. **Veri Setine Özel Normalizasyon:**
    * `utils.py` içindeki `get_mean_and_std()` fonksiyonu ile Desert101 eğitim setinin gerçek kanal ortalamaları ve standart sapmaları hesaplanmıştır:
      * `Mean`: `(0.5483, 0.4638, 0.3865)`
@@ -80,3 +80,4 @@ python main.py
 ```bash
 python load_model_make_prediction.py
 ```
+
